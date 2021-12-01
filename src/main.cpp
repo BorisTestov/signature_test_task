@@ -2,8 +2,6 @@
 #include "arguments.h"
 #include "signature.h"
 
-// TODO add CI/CD
-
 int main(int argc, char *argv[]) {
     try {
         std::shared_ptr<Arguments> arguments = std::make_shared<Arguments>();
