@@ -5,8 +5,6 @@
 #include <boost/uuid/detail/md5.hpp>
 #include <future>
 
-using HashType = boost::uuids::detail::md5;
-
 class SignatureCalculator {
 public:
     /**

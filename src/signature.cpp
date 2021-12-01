@@ -26,8 +26,8 @@ void SignatureCalculator::Calculate() {
 }
 
 std::string SignatureCalculator::GetHashBlock(const char *buffer) {
-    HashType hash;
-    HashType::digest_type digest;
+    boost::uuids::detail::md5 hash;
+    boost::uuids::detail::md5::digest_type digest;
     hash.process_bytes(buffer, strlen(buffer));
     hash.get_digest(digest);
     return HashToString(digest);

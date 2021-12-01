@@ -1,8 +1,12 @@
 #include "common.h"
 #include <iostream>
 #include <boost/algorithm/hex.hpp>
+#include <boost/filesystem.hpp>
 
 unsigned long long GetFilesize(const std::string &filename) {
+    if (!boost::filesystem::exists(filename)) {
+        throw std::runtime_error("Can't read file for getting size: " + filename);
+    }
     std::ifstream in(filename, std::ifstream::ate | std::ifstream::binary);
     unsigned long long file_size = in.tellg();
     in.close();
@@ -10,8 +14,11 @@ unsigned long long GetFilesize(const std::string &filename) {
 
 }
 
-unsigned long long int GetTotalBlocks(const std::string &file, unsigned long long int blocksize) {
-    auto total_blocks = (GetFilesize(file) + blocksize - 1) / blocksize;
+unsigned long long int GetTotalBlocks(const std::string &filename, unsigned long long int blocksize) {
+    if (!boost::filesystem::exists(filename)) {
+        throw std::runtime_error("Can't read file for getting total amount of blocks: " + filename);
+    }
+    auto total_blocks = (GetFilesize(filename) + blocksize - 1) / blocksize;
     return total_blocks;
 }
 

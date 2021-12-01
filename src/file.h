@@ -13,7 +13,7 @@ public:
      * @param file_path - path to file for reading
      * @param block_size - size of one block of data in bytes
      */
-    File(std::string file_path, unsigned long long block_size);
+    File(const std::string &file_path, unsigned long long block_size);
 
     /**
      * @brief Copy constructor

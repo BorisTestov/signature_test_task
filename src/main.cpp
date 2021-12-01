@@ -2,8 +2,6 @@
 #include "arguments.h"
 #include "signature.h"
 
-// TODO add unit tests with gtest
-// TODO add dockerfile for running
 // TODO add CI/CD
 
 int main(int argc, char *argv[]) {

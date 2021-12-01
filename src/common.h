@@ -17,7 +17,7 @@ unsigned long long GetFilesize(const std::string &filename);
  * @param blocksize - size of one block in bytes
  * @return total amount of blocks in file
  */
-unsigned long long int GetTotalBlocks(const std::string &file, unsigned long long int blocksize);
+unsigned long long int GetTotalBlocks(const std::string &filename, unsigned long long int blocksize);
 
 /**
  * @brief convert hash digest to string
