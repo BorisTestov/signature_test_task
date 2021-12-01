@@ -22,6 +22,13 @@ public:
     File(const File &other_file);
 
     /**
+     * @brief Copy assignment
+     * @param other_file From where to copy
+     * @return Result of copy
+     */
+    File &operator=(const File &other_file);
+
+    /**
      * @brief Get iterator pointed to first block of data in file
      * @return iterator pointed to first block of data in file
      */

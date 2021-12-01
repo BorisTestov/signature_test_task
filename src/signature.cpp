@@ -33,7 +33,7 @@ std::string SignatureCalculator::GetHashBlock(const char *buffer) {
     return HashToString(digest);
 }
 
-void SignatureCalculator::WriteHashBlock(std::string hash_block) {
+void SignatureCalculator::WriteHashBlock(const std::string &hash_block) {
     std::ofstream result(output_path_, std::ifstream::app);
     result << hash_block;
     result.close();

@@ -32,7 +32,7 @@ private:
      * @brief write hash block to file
      * @param hash_block block to write
      */
-    void WriteHashBlock(std::string hash_block);
+    void WriteHashBlock(const std::string &hash_block);
 
     boost::filesystem::path output_path_;
     std::unique_ptr<File> input_file_;
