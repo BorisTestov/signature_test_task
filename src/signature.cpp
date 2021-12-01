@@ -10,22 +10,20 @@ SignatureCalculator::SignatureCalculator(const std::shared_ptr<Arguments> &argum
     output_file.close();
 }
 
-
 void SignatureCalculator::Calculate() {
-    for (auto file_iterator = input_file_->begin();
-         file_iterator != input_file_->end();
-         ++file_iterator) {
+    for (auto file_iterator = input_file_->begin(); file_iterator != input_file_->end(); ++file_iterator) {
         auto data = *file_iterator;
         if (data.empty()) continue;
-        auto hash = GetHashBlock(data.c_str());
-        // TODO do we really need a vector?
-        hash_data_.push_back(hash);
+        tasks_pool_.push_back(std::async(
+                [](const std::string &data) {
+                    return GetHashBlock(data.c_str());
+                }, std::move(data)));
     }
-    std::for_each(hash_data_.begin(), hash_data_.end(), [this](auto hash_block) {
-        WriteHashBlock(hash_block);
-    });
+    for (auto &task: tasks_pool_) {
+        task.wait();
+        WriteHashBlock(task.get());
+    }
 }
-
 
 std::string SignatureCalculator::GetHashBlock(const char *buffer) {
     HashType hash;

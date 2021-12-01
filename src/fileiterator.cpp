@@ -1,6 +1,9 @@
 #include <iterator>
 #include <fstream>
 #include <memory>
+#include <mutex>
+#include <iostream>
+#include <cstring>
 #include "fileiterator.h"
 #include "common.h"
 
@@ -32,15 +35,13 @@ bool operator!=(const FileIterator &a, const FileIterator &b) {
 }
 
 void FileIterator::next() {
+    std::lock_guard<std::mutex> lck(mutex_);
     unsigned long long int amount_to_read = block_size_;
     if (current_block_ + 1 == total_blocks_) {
         amount_to_read = file_size_ - (current_block_) * block_size_;
     }
-    char buffer[amount_to_read];
-    for (auto i = 0; i < amount_to_read; ++i) {
-        buffer[i] = '\0';
-    }
-    file_handle_.read(buffer, amount_to_read);
-    data_ = std::string(buffer);
+    std::string buffer(amount_to_read, '\0');
+    file_handle_.read((char *) buffer.data(), amount_to_read);
+    data_ = buffer;
     current_block_++;
 }

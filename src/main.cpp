@@ -2,7 +2,6 @@
 #include "arguments.h"
 #include "signature.h"
 
-// TODO add multithreading
 // TODO add unit tests with gtest
 // TODO add dockerfile for running
 // TODO add CI/CD

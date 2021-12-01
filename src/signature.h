@@ -3,6 +3,7 @@
 #include "arguments.h"
 #include "file.h"
 #include <boost/uuid/detail/md5.hpp>
+#include <future>
 
 using HashType = boost::uuids::detail::md5;
 
@@ -35,5 +36,5 @@ private:
 
     boost::filesystem::path output_path_;
     std::unique_ptr<File> input_file_;
-    std::vector<std::string> hash_data_;
+    std::vector<std::future<std::string>> tasks_pool_;
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fstream>
+#include <mutex>
 
 class FileIterator {
 public:
@@ -38,4 +39,5 @@ private:
     unsigned long long int total_blocks_;
     unsigned long long int current_block_;
     std::string data_;
+    std::mutex mutex_;
 };
