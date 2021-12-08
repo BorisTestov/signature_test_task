@@ -2,9 +2,11 @@ name: C/C++ CI
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches:
+      - *
   pull_request:
-    branches: [ $default-branch ]
+    branches:
+      - *
 
 jobs:
   build:
@@ -17,7 +19,7 @@ jobs:
         run: |
           ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo "Europe/Moscow" > /etc/timezon
           apt update
-          apt install -y build-essential libgtest-dev cmake make googletest
+          apt install -y build-essential libgtest-dev cmake make googletest libboost-all-dev
           mkdir /usr/src/gtest/build
           cd $_
           cmake ..
