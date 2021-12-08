@@ -4,6 +4,7 @@
 #include <boost/filesystem.hpp>
 #include "fileiterator.h"
 #include "common.h"
+#include <iostream>
 
 FileIterator::FileIterator(const std::string &file_path,
                            unsigned long long int block_size,
@@ -16,6 +17,7 @@ FileIterator::FileIterator(const std::string &file_path,
     file_size_ = GetFilesize(file_path);
     total_blocks_ = GetTotalBlocks(file_path, block_size_);
     current_block_ = start_block;
+    data_.reserve(block_size);
     next();
 }
 
@@ -41,7 +43,11 @@ void FileIterator::next() {
     if (current_block_ + 1 == total_blocks_) {
         amount_to_read = file_size_ - (current_block_) * block_size_;
     }
-    data_ = std::string(amount_to_read, '\0');
-    file_handle_.read((char *) data_.data(), amount_to_read);
+    auto start_iterator = std::istreambuf_iterator<char>(file_handle_);
+    auto end_iterator = std::istreambuf_iterator<char>(file_handle_);
+    data_.clear();
+    std::copy_n(std::istream_iterator<char>{file_handle_},
+                amount_to_read,
+                std::inserter(data_, data_.end()));
     current_block_++;
 }
