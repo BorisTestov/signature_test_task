@@ -34,5 +34,6 @@ private:
 
     boost::filesystem::path output_path_;
     std::unique_ptr<File> input_file_;
-    std::vector<std::future<std::string>> tasks_pool_;
+    std::vector<std::future<std::string>> futures_;
+    size_t total_blocks_;
 };
