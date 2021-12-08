@@ -1,0 +1,34 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: dependencies install
+        run: |
+          ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo "Europe/Moscow" > /etc/timezon
+          apt update
+          apt install -y build-essential libgtest-dev cmake make googletest
+          mkdir /usr/src/gtest/build
+          cd $_
+          cmake ..
+          make
+          cp /usr/src/googletest/googletest/build/lib/libgtest* /usr/lib/
+          cd -
+      - name: build
+        run: |
+          mkdir build
+          cd $_
+          cmake ..
+          make
+      - name: test
+        run: ctest --verbose
