@@ -17,14 +17,14 @@ jobs:
       - uses: actions/checkout@v2
       - name: dependencies install
         run: |
-          ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo "Europe/Moscow" > /etc/timezon
-          apt update
-          apt install -y build-essential libgtest-dev cmake make googletest libboost-all-dev
-          mkdir /usr/src/gtest/build
+          sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo "Europe/Moscow" | sudo tee -a /etc/timezone
+          sudo apt update
+          sudo apt install -y build-essential libgtest-dev cmake make googletest libboost-all-dev
+          sudo mkdir /usr/src/gtest/build
           cd $_
-          cmake ..
-          make
-          cp /usr/src/googletest/googletest/build/lib/libgtest* /usr/lib/
+          sudo cmake ..
+          sudo make
+          sudo cp /usr/src/googletest/googletest/build/lib/libgtest* /usr/lib/
           cd -
       - name: build
         run: |
