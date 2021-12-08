@@ -33,4 +33,6 @@ jobs:
           cmake ..
           make
       - name: test
-        run: ctest --verbose
+        run: |
+          cd build
+          ctest --verbose
