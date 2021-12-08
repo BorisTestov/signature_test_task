@@ -24,7 +24,7 @@ private:
      * @param buffer - value to hash
      * @return string representation of hashed data
      */
-    static std::string GetHashBlock(const char *buffer);
+    static std::string GetHashBlock(const std::string &buffer);
 
     /**
      * @brief write hash block to file

@@ -16,7 +16,7 @@ void SignatureCalculator::Calculate() {
         if (data.empty()) continue;
         tasks_pool_.push_back(std::async(std::launch::async,
                                          [](const std::string &data) {
-                                             return GetHashBlock(data.c_str());
+                                             return GetHashBlock(data);
                                          }, std::move(data)));
     }
     for (auto &task: tasks_pool_) {
@@ -25,10 +25,10 @@ void SignatureCalculator::Calculate() {
     }
 }
 
-std::string SignatureCalculator::GetHashBlock(const char *buffer) {
+std::string SignatureCalculator::GetHashBlock(const std::string &buffer) {
     boost::uuids::detail::md5 hash;
     boost::uuids::detail::md5::digest_type digest;
-    hash.process_bytes(buffer, strlen(buffer));
+    hash.process_bytes(buffer.data(), buffer.length());
     hash.get_digest(digest);
     return HashToString(digest);
 }
