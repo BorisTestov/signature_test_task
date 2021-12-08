@@ -14,10 +14,10 @@ void SignatureCalculator::Calculate() {
     for (auto file_iterator = input_file_->begin(); file_iterator != input_file_->end(); ++file_iterator) {
         auto data = *file_iterator;
         if (data.empty()) continue;
-        tasks_pool_.push_back(std::async(
-                [](const std::string &data) {
-                    return GetHashBlock(data.c_str());
-                }, std::move(data)));
+        tasks_pool_.push_back(std::async(std::launch::async,
+                                         [](const std::string &data) {
+                                             return GetHashBlock(data.c_str());
+                                         }, std::move(data)));
     }
     for (auto &task: tasks_pool_) {
         task.wait();
