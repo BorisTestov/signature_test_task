@@ -1,0 +1,38 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: dependencies install
+        run: |
+          sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo "Europe/Moscow" | sudo tee -a /etc/timezone
+          sudo apt update
+          sudo apt install -y build-essential libgtest-dev cmake make googletest libboost-all-dev
+          sudo mkdir /usr/src/gtest/build
+          cd $_
+          sudo cmake ..
+          sudo make
+          sudo cp /usr/src/googletest/googletest/build/lib/libgtest* /usr/lib/
+          cd -
+      - name: build
+        run: |
+          mkdir build
+          cd $_
+          cmake ..
+          make
+      - name: test
+        run: |
+          cd build
+          ctest --verbose
